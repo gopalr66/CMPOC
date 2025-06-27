@@ -1,0 +1,11 @@
+az group create --name rg-CM_POC-tfstate --location eastus
+
+az storage account create \
+  --name stcmpoctfstate001 \
+  --resource-group rg-CM_POC-tfstate \
+  --sku Standard_LRS \
+  --encryption-services blob
+
+az storage container create \
+  --name cmpoc-tfstate \
+  --account-name stcmpoctfstate001
