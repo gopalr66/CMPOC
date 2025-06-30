@@ -66,10 +66,10 @@ module "avm-res-storage-storageaccount" {
   resource_group_name = module.avm-res-resources-resourcegroup.name
   location            = var.region
   # Optional Input
-  account_tier              = "Standard"
-  account_replication_type  = "LRS"
-  blob_properties           = null
-  queue_properties          = null
+  account_tier             = "Standard"
+  account_replication_type = "LRS"
+  // blob_properties           = null
+  // queue_properties          = null
   shared_access_key_enabled = true
   managed_identities = {
     system_assigned = true
