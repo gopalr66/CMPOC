@@ -57,7 +57,7 @@ jobs:
     
     # Step 4: Initialize Terraform
     - name: Terraform Init
-      run: terraform init
+      run: terraform init -upgrade
       working-directory: ${{ env.TF_WORKING_DIR }}
       env:
         # Set ARM environment variables for Terraform Azure provider
