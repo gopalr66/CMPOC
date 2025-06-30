@@ -201,11 +201,12 @@ module "avm-res-compute-virtualmachine-linux" {
 
   network_interfaces = {
     "nic1" = {
-      name      = "vm-linux-nic"
-      subnet_id = module.avm-res-network-virtualnetwork_subnet.resource_id
+      name = "vm-linux-nic"
+      // subnet_id = module.avm-res-network-virtualnetwork_subnet.resource_id
       ip_configurations = {
         "ipconfig1" = {
           name                          = "ipconfig1"
+          private_ip_subnet_resource_id = module.avm-res-network-virtualnetwork_subnet.resource_id
           private_ip_address_allocation = "Dynamic"
         }
       }
