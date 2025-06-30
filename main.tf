@@ -114,18 +114,17 @@ module "avm-res-network-win-networkinterface" {
   source  = "Azure/avm-res-network-networkinterface/azurerm"
   version = "0.1.0"
   # insert the 4 required variables here
-  name = "nic-${var.application}-${var.environment}-${random_string.suffix.result}"
-  location = var.region
+  name                = "nic-${var.application}-${var.environment}-${random_string.suffix.result}"
+  location            = var.region
   resource_group_name = module.avm-res-resources-resourcegroup.name
   ip_configurations = {
     "ipconfig1" = {
-      name = "ipconfig1"
-      subnet_id = module.avm-res-network-virtual_network-subnet.resource_id
+      name                          = "ipconfig1"
+      subnet_id                     = module.avm-res-network-virtual_network-subnet.resource_id
       private_ip_address_allocation = "Dynamic"
     }
   }
 }
-*/
 
 // Create a Windows VM
 module "avm-res-compute-virtualmachine-win" {
@@ -156,7 +155,7 @@ module "avm-res-compute-virtualmachine-win" {
   }
   */
 
-  
+
   existing_network_interface_ids = [
     module.avm-res-network-win-networkinterface.resource_id
   ]
