@@ -34,6 +34,7 @@ module "avm-res-resources-resourcegroup" {
 }
 
 //Create a Storage Account
+/*
 module "storage_account" {
   source  = "Azure/avm-res-storage-storageaccount/azurerm"
   version = "0.6.3"
@@ -54,8 +55,8 @@ module "storage_account" {
     project     = "CMPOC"
   }
 }
+*/
 
-/*
 module "avm-res-storage-storageaccount" {
   source = "Azure/avm-res-storage-storageaccount/azurerm"
   // source = "git::https://github.com/gopalr66/terraform-azurerm-avm-res-storage-storageaccount.git?ref=main"
@@ -65,17 +66,16 @@ module "avm-res-storage-storageaccount" {
   resource_group_name = module.avm-res-resources-resourcegroup.name
   location            = var.region
   # Optional Input
-  account_tier             = "Standard"
-  account_replication_type = "LRS"
-  blob_properties          = null
-  queue_properties         = null
+  account_tier              = "Standard"
+  account_replication_type  = "LRS"
+  blob_properties           = null
+  queue_properties          = null
   shared_access_key_enabled = true
   managed_identities = {
     system_assigned = true
   }
 
 }
-*/
 
 /*
 resource "azurerm_storage_account" "cmpoc" {
