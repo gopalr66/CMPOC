@@ -120,7 +120,7 @@ module "avm-res-network-win-networkinterface" {
   ip_configurations = {
     "ipconfig1" = {
       name                          = "ipconfig1"
-      subnet_id                     = module.avm-res-network-virtual_network-subnet.resource_id
+      subnet_id                     = module.avm-res-network-virtualnetwork-subnet.resource_id
       private_ip_address_allocation = "Dynamic"
     }
   }
