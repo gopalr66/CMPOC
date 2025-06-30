@@ -47,14 +47,13 @@ module "avm-res-storage-storageaccount" {
   account_tier             = "Standard"
   account_replication_type = "LRS"
   blob_properties          = null
-  // queue_properties          = null
-  shared_access_key_enabled = false
+  queue_properties         = null
+  //shared_access_key_enabled = true
   managed_identities = {
     system_assigned = true
   }
 
 }
-
 
 /*
 resource "azurerm_storage_account" "cmpoc" {
