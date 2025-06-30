@@ -43,10 +43,8 @@ module "avm-res-storage-storageaccount" {
   resource_group_name = module.avm-res-resources-resourcegroup.name
   location            = var.region
   # Optional Input
-  account_tier             = "Standard"
-  account_replication_type = "LRS"
-  // blob_properties           = null
-  // queue_properties          = null
+  account_tier              = "Standard"
+  account_replication_type  = "LRS"
   shared_access_key_enabled = true
   managed_identities = {
     system_assigned = true
@@ -147,7 +145,7 @@ module "avm-res-compute-virtualmachine-win" {
   network_interfaces = {
     "nic1" = {
       name      = "nic-${var.application}-${var.environment}-${random_string.suffix.result}"
-      subnet_id = module.avm-res-network-virtualnetwork_subnet.resource_id
+      subnet_id = module.avm-res-network-virtualnetwork_subnet.subnet_resource_id
       ip_configurations = {
         "ipconfig1" = {
           name                          = "ipconfig1"
@@ -204,7 +202,7 @@ module "avm-res-compute-virtualmachine-linux" {
   network_interfaces = {
     "nic1" = {
       name      = "vm-linux-nic"
-      subnet_id = module.avm-res-network-virtualnetwork_subnet.resource_id
+      subnet_id = module.avm-res-network-virtualnetwork_subnet.subnet_resource_id
       ip_configurations = {
         "ipconfig1" = {
           name                          = "ipconfig1"
