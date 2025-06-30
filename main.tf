@@ -146,6 +146,14 @@ module "avm-res-compute-virtualmachine-win" {
       name                     = "nic-${var.application}-${var.environment}-${random_string.suffix.result}"
       resource_id              = module.avm-res-network-win-networkinterface.resource_id
       create_network_interface = false # Important: tells the module not to create a new NIC
+
+      ip_configurations = {
+        "ipconfig1" = {
+          name                          = "ipconfig1"
+          subnet_resource_id            = module.avm-res-network-virtual_network-subnet.resource_id
+          private_ip_address_allocation = "Dynamic"
+        }
+      }
     }
   }
 
