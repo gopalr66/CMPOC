@@ -108,19 +108,9 @@ module "avm-res-network-virtualnetwork_subnet" {
   address_prefix  = local.alpha_address_space
 }
 
-locals {
-  subnet_id = module.avm-res-network-virtualnetwork_subnet.resource_id
-}
 
-resource "azurerm_network_interface" "validate" {
-  count = local.subnet_id != "" ? 0 : 1
-  name  = "fail-if-subnet-id-missing"
-  # This will fail intentionally if subnet_id is empty
-}
-
-/*
 // Create Network Interface
-module "avm-res-network-networkinterface" {
+module "avm-res-network-win-networkinterface" {
   source  = "Azure/avm-res-network-networkinterface/azurerm"
   version = "0.1.0"
   # insert the 4 required variables here
@@ -130,8 +120,8 @@ module "avm-res-network-networkinterface" {
   ip_configurations = {
     "ipconfig1" = {
       name = "ipconfig1"
-      subnet_id = module.avm-res-network-virtual_network-subnet.subnet_id
-      private_ip+address_allocation = "Dynamic"
+      subnet_id = module.avm-res-network-virtual_network-subnet.resource_id
+      private_ip_address_allocation = "Dynamic"
     }
   }
 }
@@ -151,7 +141,7 @@ module "avm-res-compute-virtualmachine-win" {
   admin_username      = var.admin_username
   admin_password      = var.admin_password
 
-
+  /*
   network_interfaces = {
     "nic1" = {
       name      = "nic-${var.application}-${var.environment}-${random_string.suffix.result}"
@@ -164,12 +154,13 @@ module "avm-res-compute-virtualmachine-win" {
       }
     }
   }
+  */
 
-  /*
-  network_interface_ids = [
-    module.avm-res-network-network_interface.name.id
+  
+  existing_network_interface_ids = [
+    module.avm-res-network-win-networkinterface.resource_id
   ]
-*/
+
 
   source_image_reference = {
     publisher = "MicrosoftWindowsServer"
