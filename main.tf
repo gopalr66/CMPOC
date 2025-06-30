@@ -145,7 +145,7 @@ module "avm-res-compute-virtualmachine-win" {
   network_interfaces = {
     "nic1" = {
       name      = "nic-${var.application}-${var.environment}-${random_string.suffix.result}"
-      subnet_id = module.avm-res-network-virtualnetwork_subnet.id
+      subnet_id = module.avm-res-network-virtualnetwork_subnet.resource_id
       ip_configurations = {
         "ipconfig1" = {
           name                          = "ipconfig1"
