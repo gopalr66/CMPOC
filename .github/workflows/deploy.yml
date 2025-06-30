@@ -1,0 +1,122 @@
+name: Terraform Azure Deployment
+
+# When this workflow should run
+on:
+  # Trigger on push to main branch
+  push:
+    branches: [ "main" ]
+  # Trigger on pull requests to main branch
+  pull_request:
+    branches: [ "main" ]
+  # Allow manual triggering from GitHub UI
+  workflow_dispatch:
+
+# Environment variables available to all jobs
+env:
+  # Terraform version to use
+  # TF_VERSION: '1.9.0'
+  # Working directory containing Terraform files
+  TF_WORKING_DIR: '.'
+
+# Define permissions for this workflow
+permissions:
+  # Allow reading repository contents
+  contents: read
+  # Allow writing pull request comments
+  pull-requests: write
+
+# Jobs to run (can have multiple jobs running in parallel)
+jobs:
+  # Job name: terraform
+  terraform:
+    # Display name for the job
+    name: 'Terraform Plan and Apply'
+    # Type of machine to run the job on
+    runs-on: ubuntu-latest
+
+    # Steps to execute in this job
+    steps:
+    # Step 1: Download repository code
+    - name: Checkout Repository
+      uses: actions/checkout@v4 # Uses a pre-built action from GitHub marketplace
+      
+    # Step 2: Set up Terraform CLI
+    - name: Setup Terraform
+      uses: hashicorp/setup-terraform@v3
+      with:
+        # terraform_version: ${{ env.TF_VERSION }}
+        # This allows terraform output to be captured
+        terraform_wrapper: false
+    
+    # Step 3: Login to Azure using service principal
+    - name: Azure Login
+      uses: azure/login@v1
+      with:
+        # Use the JSON credentials stored in GitHub secrets
+        creds: ${{ secrets.AZURE_CREDENTIALS }}
+    
+    # Step 4: Initialize Terraform
+    - name: Terraform Init
+      run: terraform init
+      working-directory: ${{ env.TF_WORKING_DIR }}
+      env:
+        # Set ARM environment variables for Terraform Azure provider
+        ARM_CLIENT_ID: ${{ secrets.ARM_CLIENT_ID }}
+        ARM_CLIENT_SECRET: ${{ secrets.ARM_CLIENT_SECRET }}
+        ARM_SUBSCRIPTION_ID: ${{ secrets.ARM_SUBSCRIPTION_ID }}
+        ARM_TENANT_ID: ${{ secrets.ARM_TENANT_ID }}
+        # Optional: For remote state storage
+        # ARM_ACCESS_KEY: ${{ secrets.ARM_ACCESS_KEY }}
+    
+    # Step 5: Validate Terraform configuration
+    - name: Terraform Validate
+      run: terraform validate
+      working-directory: ${{ env.TF_WORKING_DIR }}
+    
+    # Step 6: Format check (optional but good practice)
+    - name: Terraform Format Check
+      run: terraform fmt -check
+      working-directory: ${{ env.TF_WORKING_DIR }}
+      # Continue even if formatting is not perfect
+      continue-on-error: true
+    
+    # Step 7: Create execution plan
+    - name: Terraform Plan
+      run: |
+        terraform plan -input=false -out=tfplan
+      working-directory: ${{ env.TF_WORKING_DIR }}
+      env:
+        ARM_CLIENT_ID: ${{ secrets.ARM_CLIENT_ID }}
+        ARM_CLIENT_SECRET: ${{ secrets.ARM_CLIENT_SECRET }}
+        ARM_SUBSCRIPTION_ID: ${{ secrets.ARM_SUBSCRIPTION_ID }}
+        ARM_TENANT_ID: ${{ secrets.ARM_TENANT_ID }}
+    
+    # Step 8: Show plan in readable format
+    - name: Terraform Show Plan
+      run: terraform show -no-color tfplan
+      working-directory: ${{ env.TF_WORKING_DIR }}
+    
+    # Step 9: Apply changes (only on main branch, not on PRs)
+    - name: Terraform Apply
+      # This condition ensures apply only runs on pushes to main, not on PRs
+      if: github.ref == 'refs/heads/main' && github.event_name == 'push'
+      run: |
+        terraform apply -input=false tfplan
+      working-directory: ${{ env.TF_WORKING_DIR }}
+      env:
+        ARM_CLIENT_ID: ${{ secrets.ARM_CLIENT_ID }}
+        ARM_CLIENT_SECRET: ${{ secrets.ARM_CLIENT_SECRET }}
+        ARM_SUBSCRIPTION_ID: ${{ secrets.ARM_SUBSCRIPTION_ID }}
+        ARM_TENANT_ID: ${{ secrets.ARM_TENANT_ID }}
+    
+    # Step 10: Output important information
+    - name: Terraform Output
+      if: github.ref == 'refs/heads/main' && github.event_name == 'push'
+      run: terraform output
+      working-directory: ${{ env.TF_WORKING_DIR }}
+      env:
+        ARM_CLIENT_ID: ${{ secrets.ARM_CLIENT_ID }}
+        ARM_CLIENT_SECRET: ${{ secrets.ARM_CLIENT_SECRET }}
+        ARM_SUBSCRIPTION_ID: ${{ secrets.ARM_SUBSCRIPTION_ID }}
+        ARM_TENANT_ID: ${{ secrets.ARM_TENANT_ID }}
+    
