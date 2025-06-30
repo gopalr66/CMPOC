@@ -143,7 +143,7 @@ module "avm-res-compute-virtualmachine-win" {
   # Reference the existing NIC within the network_interfaces structure
   network_interfaces = {
     "nic1" = {
-      name                     = module.avm-res-network-win-networkinterface.name
+      name                     = module.avm-res-network-win-networkinterface.network_interface_name
       resource_id              = module.avm-res-network-win-networkinterface.resource_id
       create_network_interface = false # Important: tells the module not to create a new NIC
     }
