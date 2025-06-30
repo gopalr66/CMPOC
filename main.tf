@@ -108,6 +108,16 @@ module "avm-res-network-virtualnetwork_subnet" {
   address_prefix  = local.alpha_address_space
 }
 
+locals {
+  subnet_id = module.avm-res-network-virtualnetwork_subnet.resource_id
+}
+
+resource "azurerm_network_interface" "validate" {
+  count = local.subnet_id != "" ? 0 : 1
+  name  = "fail-if-subnet-id-missing"
+  # This will fail intentionally if subnet_id is empty
+}
+
 /*
 // Create Network Interface
 module "avm-res-network-networkinterface" {
