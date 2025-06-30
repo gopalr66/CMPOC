@@ -173,7 +173,6 @@ module "avm-res-compute-virtualmachine-win" {
     storage_account_type = "Standard_LRS"
   }
 
-
 }
 
 // Create a Linux VM
