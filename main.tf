@@ -201,7 +201,7 @@ module "avm-res-compute-virtualmachine-linux" {
   network_interfaces = {
     "nic1" = {
       name      = "vm-linux-nic"
-      subnet_id = module.avm-res-network-virtualnetwork_subnet.id
+      subnet_id = module.avm-res-network-virtualnetwork_subnet.resource_id
       ip_configurations = {
         "ipconfig1" = {
           name                          = "ipconfig1"
