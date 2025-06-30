@@ -140,26 +140,9 @@ module "avm-res-compute-virtualmachine-win" {
   admin_username      = var.admin_username
   admin_password      = var.admin_password
 
-  /*
-  network_interfaces = {
-    "nic1" = {
-      name      = "nic-${var.application}-${var.environment}-${random_string.suffix.result}"
-      subnet_id = module.avm-res-network-virtualnetwork_subnet.resource_id
-      ip_configurations = {
-        "ipconfig1" = {
-          name                          = "ipconfig1"
-          private_ip_address_allocation = "Dynamic"
-        }
-      }
-    }
-  }
-  */
-
-
-  existing_network_interface_ids = [
+  network_interface_ids = [
     module.avm-res-network-win-networkinterface.resource_id
   ]
-
 
   source_image_reference = {
     publisher = "MicrosoftWindowsServer"
@@ -172,8 +155,8 @@ module "avm-res-compute-virtualmachine-win" {
     caching              = "ReadWrite"
     storage_account_type = "Standard_LRS"
   }
-
 }
+
 
 // Create a Linux VM
 module "avm-res-compute-virtualmachine-linux" {
