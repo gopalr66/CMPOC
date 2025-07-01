@@ -150,7 +150,8 @@ module "avm-res-compute-virtualmachine-win" {
       ip_configurations = {
         "ipconfig1" = {
           name                          = "ipconfig1"
-          subnet_resource_id            = module.avm-res-network-virtualnetwork_subnet.resource_id
+          private_ip_subnet_resource_id = module.avm-res-network-virtualnetwork_subnet.resource_id
+          // subnet_resource_id            = module.avm-res-network-virtualnetwork_subnet.resource_id
           private_ip_address_allocation = "Dynamic"
         }
       }
