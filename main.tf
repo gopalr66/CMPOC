@@ -170,7 +170,6 @@ module "avm-res-compute-virtualmachine-win" {
   }
 }
 
-
 // Create a Linux VM
 module "avm-res-compute-virtualmachine-linux" {
   source  = "Azure/avm-res-compute-virtualmachine/azurerm"
@@ -211,8 +210,8 @@ module "avm-res-compute-virtualmachine-linux" {
 
   source_image_reference = {
     publisher = "Canonical"
-    offer     = "UbuntuServer"
-    sku       = "22_04-lts"
+    offer     = "0001-com-ubuntu-server-jammy"
+    sku       = "22_04-lts-gen2"
     version   = "latest"
   }
 
