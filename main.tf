@@ -179,10 +179,10 @@ module "avm-res-compute-virtualmachine-linux" {
   location            = var.region
   resource_group_name = module.avm-res-resources-resourcegroup.name
 
-  os_type  = "Linux"
-  sku_size = "Standard_B1ls"
-  zone     = "1"
-
+  os_type                    = "Linux"
+  sku_size                   = "Standard_B1ls"
+  zone                       = "1"
+  encryption_at_host_enabled = false
   account_credentials = {
     ssh_keys = [
       {
