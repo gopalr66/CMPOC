@@ -131,14 +131,15 @@ module "avm-res-compute-virtualmachine-win" {
   source  = "Azure/avm-res-compute-virtualmachine/azurerm"
   version = "0.19.3"
   # insert the 5 required variables here
-  name                = "vm-${var.application}-${var.environment}-01"
-  location            = var.region
-  resource_group_name = module.avm-res-resources-resourcegroup.name
-  zone                = "1"
-  os_type             = "Windows"
-  sku_size            = "Standard_B1ls"
-  admin_username      = var.admin_username
-  admin_password      = var.admin_password
+  name                       = "vm-${var.application}-${var.environment}-01"
+  location                   = var.region
+  resource_group_name        = module.avm-res-resources-resourcegroup.name
+  zone                       = "1"
+  os_type                    = "Windows"
+  sku_size                   = "Standard_B1ls"
+  encryption_at_host_enabled = false
+  admin_username             = var.admin_username
+  admin_password             = var.admin_password
 
   # Reference the existing NIC within the network_interfaces structure
   network_interfaces = {
